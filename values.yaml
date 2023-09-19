@@ -1,0 +1,158 @@
+ingress:
+  enabled: true
+  ingressClassName: ""
+  pathType: ImplementationSpecific
+  annotations: {}
+  hosts:
+    - host: ""
+      paths:
+        - /
+  tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+    ephemeral-storage: 512Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+    ephemeral-storage: 512Mi
+
+envs:
+# sys related envs
+- name: FLOWISE_USERNAME
+  value: "admin"
+- name: FLOWISE_PASSWORD
+  value: "admin"
+- name: DEBUG
+  value: "true"
+- name: LOG_LEVEL
+  value: "info"
+# db related envs
+- name: DATABASE_TYPE
+  value: ""
+- name: DATABASE_HOST
+  value: ""
+- name: DATABASE_PORT
+  value: ""
+- name: DATABASE_USER
+  value: ""
+- name: DATABASE_PASSWORD
+  value: ""
+- name: DATABASE_NAME
+  value: ""
+
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+kubeVersion: ""
+nameOverride: ""
+fullnameOverride: ""
+commonAnnotations: {}
+commonLabels: {}
+extraDeploy: []
+replicaCount: 1
+updateStrategy:
+  type: Recreate
+image:
+  registry: docker.io
+  repository: flowiseai/flowise
+  tag: 1.3.4
+  digest: ""
+  pullPolicy: IfNotPresent
+pdb:
+  create: false
+  minAvailable: 1
+  maxUnavailable:
+serviceAccount:
+  create: true
+  annotations: {}
+  name:
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+priorityClassName:
+securityContext: {}
+containerPorts:
+  http: 3000
+livenessProbe:
+  enabled: false
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+readinessProbe:
+  enabled: false
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+startupProbe:
+  enabled: false
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+service:
+  annotations: {}
+  type: ClusterIP
+  clusterIP:
+  loadBalancerIP:
+  loadBalancerSourceRanges:
+  externalTrafficPolicy: Cluster
+  ports:
+    http: 3000
+  nodePorts:
+    http:
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+extraArgs: {}
+extraEnvVars: []
+extraEnvVarsCM:
+extraEnvVarsSecret:
+
+persistence:
+  enabled: false
+  existingClaim:
+  accessMode: ReadWriteOnce
+  annotations: {}
+  size: 1Gi
+  storageClass:
+
+config:
+  ## @param config.username Username to login
+  username: ""
+
+  ## @param config.password Password to login
+  password: ""
+
+  ## @param config.passphrase Passphrase used to create encryption key
+  passphrase: MYPASSPHRASE
+
+existingSecret: ""
+existingSecretKeyPassword: password
+existingSecretKeyPassphrase: passphrase
+
+wait:
+  image:
+    registry: docker.io
+    repository: atkrad/wait4x
+    tag: 2.13.0
+    digest: ""
+    pullPolicy: IfNotPresent
+  securityContext: {}
+  resources: {}
+
+tests:
+  image:
+    registry: ghcr.io
+    repository: cowboysysop/pytest
+    tag: 1.0.35
+    digest: ""
+    pullPolicy: IfNotPresent
